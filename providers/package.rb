@@ -33,11 +33,17 @@ action :install do
       checksum  new_resource.checksum if new_resource.checksum
     end
     
-    execute "Executing package #{pkg_file}" do
-      command "sudo su - #{new_resource.user} -c 'installer -pkg #{downloaded_file} -target /'"
-      user new_resource.user if new_resource.user
-      group new_resource.group if new_resource.group
+    Chef::Log.info("Command: sudo su - #{new_resource.user} -c 'installer -pkg #{downloaded_file} -target /'")
+    
+    bash "Executing package #{pkg_file}" do
+      code "sudo su - #{new_resource.user} -c 'installer -pkg #{downloaded_file} -target /'"
     end
+	
+    # execute "Executing package #{pkg_file}" do
+    #   command "sudo su - #{new_resource.user} -c 'installer -pkg #{downloaded_file} -target /'"
+    #   user new_resource.user if new_resource.user
+    #   group new_resource.group if new_resource.group
+    # end
   end
 end
 
@@ -45,5 +51,5 @@ private
 
 def installed?
 	system("pkgutil --pkgs=#{new_resource.package_id}") ||
-    system("pkgutil --pkgs=.*#{new_resource.name}.*")
+  system("pkgutil --pkgs=.*#{new_resource.name}.*")
 end
