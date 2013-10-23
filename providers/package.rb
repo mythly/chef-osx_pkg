@@ -34,7 +34,7 @@ action :install do
     end
     
     execute "Executing package #{pkg_file}" do
-      command "sudo installer -pkg #{downloaded_file} -target /"
+      command "sudo su - #{new_resource.user} -c 'installer -pkg #{downloaded_file} -target /'"
       user new_resource.user if new_resource.user
       group new_resource.group if new_resource.group
     end
