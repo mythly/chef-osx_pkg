@@ -33,11 +33,12 @@ action :install do
       checksum  new_resource.checksum if new_resource.checksum
     end
     
-    Chef::Log.info("sudo su - #{new_resource.user} -c '/usr/sbin/installer -pkg #{downloaded_file} -target /'")
+    Chef::Log.info("sudo -u #{new_resource.user} -i 'sudo /usr/sbin/installer -pkg #{downloaded_file} -target /'")
     
     bash "Executing package #{pkg_file}" do
-      code "sudo su - #{new_resource.user} -c 'sudo /usr/sbin/installer -pkg #{downloaded_file} -target /'"
+      #code "sudo su - #{new_resource.user} -c 'sudo /usr/sbin/installer -pkg #{downloaded_file} -target /'"
       #code "sudo su - #{new_resource.user} -i -l -c \"bash -i -l -c 'sudo installer -pkg #{downloaded_file} -target /'\""
+      code "sudo -u #{new_resource.user} -i 'installer -pkg #{downloaded_file} -target /'"
     end
 	
     # execute "Executing package #{pkg_file}" do
