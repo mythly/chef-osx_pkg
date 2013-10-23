@@ -32,12 +32,10 @@ action :install do
       source    new_resource.source
       checksum  new_resource.checksum if new_resource.checksum
     end
-
-    Chef::Log.info("Installing under user #{new_resource.user}")
     
     execute "Executing package #{pkg_file}" do
       command "sudo installer -pkg #{downloaded_file} -target /"
-      owner new_resource.user if new_resource.user
+      user new_resource.user if new_resource.user
       group new_resource.group if new_resource.group
     end
   end
