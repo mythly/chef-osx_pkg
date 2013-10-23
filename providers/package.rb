@@ -37,7 +37,7 @@ action :install do
     
     bash "Executing package #{pkg_file}" do
       #code "sudo su - #{new_resource.user} -c 'installer -pkg #{downloaded_file} -target /'"
-      code "sudo su - #{new_resource.user} -i -l -c \"bash -i -l -c 'installer -pkg #{downloaded_file} -target /''\""
+      code "sudo su - #{new_resource.user} -i -l -c \"bash -i -l -c 'installer -pkg #{downloaded_file} -target /'\""
     end
 	
     # execute "Executing package #{pkg_file}" do
